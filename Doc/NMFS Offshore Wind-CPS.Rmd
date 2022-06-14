@@ -1,0 +1,56 @@
+---
+title: "NMFS Offshore Wind-CPS"
+author: "Kevin L. Stierhoff"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r load-libraries-functions, error=FALSE, message=FALSE, warning=FALSE, echo=FALSE}
+# Install and load pacman (library management package)
+if (!require("pacman")) install.packages("pacman")
+
+# Install and load required packages from CRAN ---------------------------------
+pacman::p_load(tidyverse,lubridate,knitr,maps,kableExtra,scatterpie,marmap,
+               rnaturalearth,shadowtext,here,leaflet,leafem,htmltools,
+               leaflet.extras,maptools,mapview,fs,plotly,magick,
+               lwgeom,bookdown,sf,rworldmap,rworldxtra,ggspatial)
+
+# Install and load required packages from Github -------------------------------
+# rnaturalearth data
+pacman::p_load_gh("ropenscilabs/rnaturalearthdata")
+pacman::p_load_gh("ropenscilabs/rnaturalearthhires")
+```
+
+```{r knitr-options,echo=FALSE}
+# Set global knitr chunk options
+if (.Platform$OS.type == "unix") {
+  # Do not specify Cairo device for MacOS
+  knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, cache = FALSE,
+                        fig.align = 'center', dev = "png", dpi = 150)
+} else {
+  knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, cache = FALSE,
+                        fig.align = 'center', dev = "png", dpi = 150,
+                        dev.args = list(type = "cairo"))
+}
+```
+
+# Map Call Areas
+
+```{r import-map-areas}
+areas <- st_read(here("Data/GIS/CallAreas_OR_Outline_2022_04_22.shp")) %>% 
+  st_transform(crs = 4326)
+
+
+aliquots <- st_read(here("Data/GIS/CallArea_OR_BlocksAliquots_2022_04_22.shp")) %>% 
+    st_transform(crs = 4326)
+
+wpts <- st_read(here("Data/GIS/OR_CallAreas_Waypoints_2022_04_22.shp")) %>% 
+    st_transform(crs = 4326)
+
+# Quick map of OR area
+ggplot() + 
+  geom_sf(data = areas) + 
+  geom_sf(data = wpts) + 
+  geom_sf(data = aliquots)
+```
+
