@@ -34,23 +34,27 @@ if (.Platform$OS.type == "unix") {
 }
 ```
 
+```{r user-settings}
+# Set ggplot2 theme
+theme_set(theme_bw())
+```
+
+
 # Map Call Areas
 
 ```{r import-map-areas}
 areas <- st_read(here("Data/GIS/CallAreas_OR_Outline_2022_04_22.shp")) %>% 
-  st_transform(crs = 4326)
-
+  st_transform(crs = 3310)
 
 aliquots <- st_read(here("Data/GIS/CallArea_OR_BlocksAliquots_2022_04_22.shp")) %>% 
-    st_transform(crs = 4326)
+    st_transform(crs = 3310)
 
 wpts <- st_read(here("Data/GIS/OR_CallAreas_Waypoints_2022_04_22.shp")) %>% 
-    st_transform(crs = 4326)
+    st_transform(crs = 3310)
 
 # Quick map of OR area
-ggplot() + 
+ggplot() +
   geom_sf(data = areas) + 
-  geom_sf(data = wpts) + 
-  geom_sf(data = aliquots)
+  geom_sf(data = aliquots, aes(fill = Call_Area_)) 
 ```
 
