@@ -26,10 +26,10 @@ pacman::p_load_gh("ropenscilabs/rnaturalearthhires")
 if (.Platform$OS.type == "unix") {
   # Do not specify Cairo device for MacOS
   knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, cache = FALSE,
-                        fig.align = 'center', dev = "png", dpi = 150)
+                        results = FALSE, fig.align = 'center', dev = "png", dpi = 150)
 } else {
   knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, cache = FALSE,
-                        fig.align = 'center', dev = "png", dpi = 150,
+                        results = FALSE, fig.align = 'center', dev = "png", dpi = 150,
                         dev.args = list(type = "cairo"))
 }
 ```
@@ -40,9 +40,9 @@ theme_set(theme_bw())
 ```
 
 
-# Map Call Areas
+# Map OR Call Areas
 
-```{r import-map-areas}
+```{r import-map-areas, results=FALSE}
 areas <- st_read(here("Data/GIS/CallAreas_OR_Outline_2022_04_22.shp")) %>% 
   st_transform(crs = 3310)
 
@@ -56,5 +56,25 @@ wpts <- st_read(here("Data/GIS/OR_CallAreas_Waypoints_2022_04_22.shp")) %>%
 ggplot() +
   geom_sf(data = areas) + 
   geom_sf(data = aliquots, aes(fill = Call_Area_)) 
+```
+
+# Map CPS transects and trawls within the OR Call Area
+
+```{r map-cps-areas, include=TRUE}
+source(here("Code/plot_cps.R"))
+
+include_graphics(here("Figs/fig_transects_trawls.png"))
+```
+
+# Define COAST survey footprint
+
+```{r coast-area}
+
+```
+
+# Define abalone survey footpring
+
+```{r abalone-area}
+
 ```
 

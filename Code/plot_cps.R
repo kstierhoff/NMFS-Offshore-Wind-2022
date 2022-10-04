@@ -117,7 +117,7 @@ transects %>%
 nav.footprint <- concaveman(nav.sf, concavity = 300) %>% 
   st_zm(drop = TRUE)
 
-st_write(nav.footprint, here("Output/footprint_2015_2021.shp"), 
+st_write(nav.footprint, here("Output/cce_summer_footprint_2015_2021.shp"), 
          delete_layer = TRUE)
 
 # ggplot(nav.footprint) + geom_sf()
@@ -240,7 +240,7 @@ base.map +
            xlim = unname(c(map.bounds["xmin"], map.bounds["xmax"])), 
            ylim = unname(c(map.bounds["ymin"], map.bounds["ymax"])))
 
-ggsave("Figs/fig_transects_trawls.png",
+ggsave(here("Figs/fig_transects_trawls.png"),
        height = 10, width = 5)
 
 
